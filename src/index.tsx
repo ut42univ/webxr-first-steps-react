@@ -10,6 +10,7 @@ import { XR, createXRStore } from "@react-three/xr";
 
 import { Canvas } from "@react-three/fiber";
 import ReactDOM from "react-dom/client";
+import { Gun } from "./gun";
 
 const xrStore = createXRStore({
   emulate: {
@@ -30,6 +31,9 @@ const xrStore = createXRStore({
       },
     },
   },
+  controller: {
+    right: Gun,
+  },
 });
 
 const App = () => {
@@ -48,6 +52,21 @@ const App = () => {
         <mesh rotation-x={-Math.PI / 2}>
           <planeGeometry args={[6, 6]} />
           <meshStandardMaterial color="white" />
+        </mesh>
+
+        <mesh position={[0.4, 0.75, -1.5]}>
+          <coneGeometry args={[0.6, 1.5]} />
+          <meshStandardMaterial color="purple" />
+        </mesh>
+
+        <mesh position={[-0.8, 0.5, -1.5]} rotation-y={Math.PI / 4}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color="orange" />
+        </mesh>
+
+        <mesh position={[0.6, 0.4, -0.5]} scale={1.2}>
+          <sphereGeometry args={[0.4]} />
+          <meshStandardMaterial color="red" />
         </mesh>
         <XR store={xrStore}></XR>
       </Canvas>
