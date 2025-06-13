@@ -11,6 +11,7 @@ import { XR, createXRStore } from "@react-three/xr";
 import { Canvas } from "@react-three/fiber";
 import { Gun } from "./gun";
 import ReactDOM from "react-dom/client";
+import { Bullets } from "./bullets";
 
 const xrStore = createXRStore({
   emulate: {
@@ -65,6 +66,9 @@ const App = () => {
           <sphereGeometry args={[0.4]} />
           <meshStandardMaterial color="red" />
         </mesh>
+
+        <Bullets />
+
         <XR store={xrStore}></XR>
       </Canvas>
       <div

@@ -5,13 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { useRef } from "react";
+import { Mesh, Quaternion, Vector3 } from "three";
+import {
+  useXRControllerButtonEvent,
+  useXRInputSourceStateContext,
+} from "@react-three/xr";
+import { useBulletStore } from "./bullets";
+
 export const Gun = () => {
+  // Reference for the barrel
+  const barrelRef = useRef<Mesh>(null);
+
+  // Retrieve the state context for the controller
+  const state = useXRInputSourceStateContext("controller");
+  // Handle trigger press event to spawn a bullet
+  useXRControllerButtonEvent(state, "xr-standard-trigger", (state) => {
+    if (state === "pressed" && barrelRef.current) {
+      useBulletStore
+        .getState()
+        .addBullet(
+          barrelRef.current.getWorldPosition(new Vector3()),
+          barrelRef.current.getWorldQuaternion(new Quaternion())
+        );
+    }
+  });
+
   return (
     <group rotation-x={-Math.PI / 8}>
-      <mesh>
+      {/* Main barrel mesh with a reference */}
+      <mesh ref={barrelRef}>
         <boxGeometry args={[0.035, 0.05, 0.16]} />
         <meshStandardMaterial color="orange" />
       </mesh>
+      {/* Additional part of the gun model */}
       <mesh rotation-x={Math.PI / 2} position={[0, -0.05, 0.05]}>
         <boxGeometry args={[0.025, 0.04, 0.1]} />
         <meshStandardMaterial color="grey" />
