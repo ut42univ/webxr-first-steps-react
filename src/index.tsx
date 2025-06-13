@@ -13,6 +13,7 @@ import { Canvas } from "@react-three/fiber";
 import { Gun } from "./gun";
 import ReactDOM from "react-dom/client";
 import { Gltf } from "@react-three/drei";
+import { Target } from "./targets";
 
 const xrStore = createXRStore({
   emulate: {
@@ -55,6 +56,10 @@ const App = () => {
         <Gltf src="assets/spacestation.glb" />
 
         <Bullets />
+
+        <Target targetIdx={0} />
+        <Target targetIdx={1} />
+        <Target targetIdx={2} />
         <XR store={xrStore}></XR>
       </Canvas>
       <div
