@@ -13,6 +13,7 @@ import { Canvas } from "@react-three/fiber";
 import { Gun } from "./gun";
 import ReactDOM from "react-dom/client";
 import { Target } from "./targets";
+import { Score } from "./score";
 
 const xrStore = createXRStore({
   emulate: {
@@ -56,6 +57,8 @@ const App = () => {
         <Target targetIdx={0} />
         <Target targetIdx={1} />
         <Target targetIdx={2} />
+        <Score />
+
         <XR store={xrStore}></XR>
       </Canvas>
       <div
