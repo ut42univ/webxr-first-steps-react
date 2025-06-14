@@ -11,6 +11,10 @@ import {
   useXRInputSourceStateContext,
 } from "@react-three/xr";
 
+import { PositionalAudio as PAudio } from "three";
+import { PositionalAudio } from "@react-three/drei";
+import { useRef } from "react";
+
 import { useBulletStore } from "./bullets";
 import { useGLTF } from "@react-three/drei";
 
@@ -28,8 +32,23 @@ export const Gun = () => {
         );
     }
   });
+  const soundRef = useRef<PAudio>(null);
 
-  return <primitive object={scene} />;
+  useXRControllerButtonEvent(state, "xr-standard-trigger", (state) => {
+    if (state === "pressed") {
+      // ... existing code
+      const laserSound = soundRef.current!;
+      if (laserSound.isPlaying) laserSound.stop();
+      laserSound.play();
+    }
+  });
+
+  return (
+    <>
+      <primitive object={scene} />
+      <PositionalAudio ref={soundRef} url="assets/laser.ogg" loop={false} />
+    </>
+  );
 };
 
 useGLTF.preload("assets/blaster.glb");

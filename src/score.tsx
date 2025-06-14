@@ -7,6 +7,9 @@
 
 import { Text } from "@react-three/drei";
 import { create } from "zustand";
+import { PositionalAudio } from "@react-three/drei";
+import { PositionalAudio as PAudio } from "three";
+import { useEffect, useRef } from "react";
 
 type ScoreStore = {
   score: number;
@@ -24,6 +27,15 @@ export const Score = () => {
   };
 
   const score = useScoreStore((state) => state.score);
+  const soundRef = useRef<PAudio>(null);
+
+  useEffect(() => {
+    if (score > 0) {
+      const scoreSound = soundRef.current!;
+      if (scoreSound.isPlaying) scoreSound.stop();
+      scoreSound.play();
+    }
+  }, [score]);
 
   return (
     <Text
@@ -36,6 +48,7 @@ export const Score = () => {
       quaternion={[-0.4582265217274104, 0, 0, 0.8888354486549235]}
     >
       {formatScoreText(score)}
+      <PositionalAudio ref={soundRef} url="assets/score.ogg" loop={false} />
     </Text>
   );
 };
