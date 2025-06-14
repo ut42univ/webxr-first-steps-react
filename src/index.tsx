@@ -15,6 +15,9 @@ import ReactDOM from "react-dom/client";
 import { Score } from "./score";
 import { Target } from "./targets";
 
+import { useFrame } from "@react-three/fiber";
+import gsap from "gsap";
+
 const xrStore = createXRStore({
   emulate: {
     controller: {
@@ -39,6 +42,13 @@ const xrStore = createXRStore({
   },
 });
 
+const GsapTicker = () => {
+  useFrame(() => {
+    gsap.ticker.tick();
+  });
+  return null;
+};
+
 const App = () => {
   return (
     <>
@@ -58,6 +68,7 @@ const App = () => {
         <Target targetIdx={1} />
         <Target targetIdx={2} />
         <Score />
+        <GsapTicker />
         <XR store={xrStore}></XR>
       </Canvas>
       <div
