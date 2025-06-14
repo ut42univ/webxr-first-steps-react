@@ -22,6 +22,8 @@ export const Gun = () => {
   const state = useXRInputSourceStateContext("controller");
   const { scene } = useGLTF("assets/blaster.glb");
   const bulletPrototype = scene.getObjectByName("bullet")!;
+  const gamepad = state.inputSource.gamepad;
+
   useXRControllerButtonEvent(state, "xr-standard-trigger", (state) => {
     if (state === "pressed") {
       useBulletStore
@@ -40,6 +42,7 @@ export const Gun = () => {
       const laserSound = soundRef.current!;
       if (laserSound.isPlaying) laserSound.stop();
       laserSound.play();
+      gamepad.hapticActuators[0]?.pulse(0.6, 100);
     }
   });
 
